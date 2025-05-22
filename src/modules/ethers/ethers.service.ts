@@ -45,8 +45,7 @@ export class EthersService {
 
   async getBalance() {
     // Todo: account1의 잔액(balance)을 리턴합니다.
-    const address = this.getAccount1().address;
-    return await this.provider.getBalance(address);
+    return await this.provider.getBalance(this.getAccount1().address);
   }
 
   async send1ETH(nonce: number) {

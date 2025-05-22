@@ -52,6 +52,7 @@ export class ScheduleService {
       return result;
     } catch (error) {
       //  Todo: 에러 메세지를 에러 로그로 출력합니다.
+      result = false;
       this.logger.error(error.message);
       throw exceptions.createBadRequestException(error.message);
     } finally {
@@ -74,8 +75,9 @@ export class ScheduleService {
       this.logger.log('[thirtyEthTransfer] 30 ETH 전송 성공');
     } catch (error) {
       //  Todo: 에러 메세지를 에러 로그로 출력합니다.
-      this.logger.error(error.message);
+      this.logger.error(error.message);  // 빨간색으로 나옴 
       throw exceptions.createBadRequestException(error.message);
     }
   }
 }
+
