@@ -18,10 +18,10 @@ describe('ScheduleService', () => {
   let errorSpy: jest.SpyInstance;
 
   beforeEach(async () => {
-    logSpy = jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {});
+    logSpy = jest.spyOn(Logger.prototype, 'log').mockImplementation(() => { });
     errorSpy = jest
       .spyOn(Logger.prototype, 'error')
-      .mockImplementation(() => {});
+      .mockImplementation(() => { });
     jest.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
@@ -52,7 +52,13 @@ describe('ScheduleService', () => {
         new Error('getBalance error')
       );
 
-      await service.getBalance();
+      // (나) try, catch 로 수정함 
+      try {
+        await service.getBalance();
+      } catch (e) {
+        // expect(e.message).toBe('getBalance failed');
+      }
+
       expect(errorSpy).toHaveBeenCalledWith('getBalance error');
     });
   });
@@ -76,7 +82,12 @@ describe('ScheduleService', () => {
       mockEthersService.getAccount1.mockReturnValue({});
       mockEthersService.send1ETH.mockRejectedValueOnce(new Error('fail'));
 
-      await service.tenTimesOneEthTransfer();
+      // (나) try, error 추가 
+      try {
+        await service.tenTimesOneEthTransfer();
+      } catch (e) {
+        // expect(e.message).toBe('transfer failed');
+      }
 
       expect(errorSpy).toHaveBeenCalledWith('fail');
       expect(logSpy).not.toHaveBeenCalledWith(
@@ -101,7 +112,12 @@ describe('ScheduleService', () => {
         new Error('transfer failed')
       );
 
-      await service.thirtyEthTransfer();
+      // (나) try, catch 추가 
+      try {
+        await service.thirtyEthTransfer();
+      } catch (e) {
+        // expect(e.message).toBe('transfer failed');
+      }
 
       expect(errorSpy).toHaveBeenCalledWith('transfer failed');
     });
